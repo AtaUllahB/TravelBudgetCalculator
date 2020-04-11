@@ -1,0 +1,55 @@
+ {% load static %}
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="author" content="colorlib.com">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,800" rel="stylesheet" />
+    <link href="{% static '/css/main.css' %}" rel="stylesheet" />
+  <link href="{% static '/css/styles/layout.css' %}" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="s004">
+          <ul class="nospace group services" style="width: 80%;">
+        <li class="one_third first">
+          <article class="overlay"><a href="#"><i class="fa fa-legal"></i></a>
+            <h6 class="heading">Location</h6>
+            {% for loc in location %}
+            <p>{{loc.location}}</p>
+            {% endfor %}
+            <footer><a href="#">Read More »</a></footer>
+          </article>
+        </li>
+        <li class="one_third">
+          <article class="overlay"><a href="#"><i class="fa fa-line-chart"></i></a>
+            <h6 class="heading">Food</h6>
+            {% for fo in food %}
+            <p>{{fo.water}}</p>
+            <p>{{fo.food}}</p>
+            {% endfor %}
+            <footer><a href="#">Read More »</a></footer>
+          </article>
+        </li>
+        <li class="one_third">
+          <article class="overlay"><a href="#"><i class="fa fa-archive"></i></a>
+            <h6 class="heading">Transport</h6>
+            {% for tr in transport %}
+            <p>{{tr.transport}}</p>
+            {% endfor %}
+            <footer><a href="#">Read More »</a></footer>
+          </article>
+        </li>
+      </ul>
+    </div>
+    <script src="{% static 'js/extention/choices.js' %}"></script>
+    <script>
+      var textPresetVal = new Choices('#choices-text-preset-values',
+      {
+        removeItemButton: true,
+      });
+
+    </script>
+  </body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+</html>
