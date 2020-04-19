@@ -14,6 +14,14 @@ def show(request):
     user1 = []
     response2 = {}
     response3={}
+    response4={}
+    test2 =[]
+    cit = []
+    cit1 = []
+    cit2 = []
+    cit3 = []
+    cit4 = []
+    cit5 = []
     if 'query' in request.GET:
         username = request.GET['query']
         username = (username[-2]+username[-1])
@@ -25,10 +33,46 @@ def show(request):
         response3 = ((response.json())['data']["info"]["name"])
         for x in response1:
             user1.append(x)
-            
-    
+        
+        headers = {'X-API-KEY':'PATRICKONEILL04032020','Content-Type':'application/json'}
+        url = 'https://www.budgetyourtrip.com/api/v3/costs/countryhighlights/%s' % username
+        response = requests.get(url, headers=headers)
+        response4 = ((response.json())['data'])
         
        
+       
+  
+    if 'sel1' in request.GET: 
+        cit = request.GET['sel1']
+        headers = {'X-API-KEY':'PATRICKONEILL04032020','Content-Type':'application/json'}
+        url = 'https://www.budgetyourtrip.com/api/v3/costs/locationinfo/%s' %cit
+        response = requests.get(url, headers=headers)
+        cit1 = ((((response.json())['data']["costs"])))
+        cit2 = ((response.json())['data']["info"]["asciiname"])
+        cit3 = ((response.json())['data']["info"]["currency_code"])
+        
+        
+        headers = {'X-API-KEY':'PATRICKONEILL04032020','Content-Type':'application/json'}
+        url = 'https://www.budgetyourtrip.com/api/v3/activities/citysearch/%s' %cit2
+        response = requests.get(url, headers=headers)
+        cit4 = ((response.json())['data'])
+        
+        headers = {'X-API-KEY':'PATRICKONEILL04032020','Content-Type':'application/json'}
+        url = 'https://www.budgetyourtrip.com/api/v3/costs/highlights/%s' %cit
+        response = requests.get(url, headers=headers)
+        cit5 = ((response.json())['data'])
+        
+        
+            
+        
+    headers = {'X-API-KEY':'PATRICKONEILL04032020','Content-Type':'application/json'}
+    response = requests.get('https://www.budgetyourtrip.com/api/v3/currencies', headers=headers)
+    test1 = response
+    test1 = ((response.json())['data'])
+    #test1 = test1['currency_code']
+    #test1 == ((((response.json())['data']["currency_code"])))
+    for x in test1:
+        test2.append((x["currency_code"]))
     
     headers = {'X-API-KEY':'PATRICKONEILL04032020','Content-Type':'application/json'}
     response = requests.get('https://www.budgetyourtrip.com/api/v3/countries', headers=headers)
@@ -38,28 +82,45 @@ def show(request):
     content = []
     for x in geodata:
         content.append((x["name"]+" "+x["country_code"]))
+        
 
-    return render(request, 'blog/post_list.html', {'name':content, 
+    url = "https://tripadvisor1.p.rapidapi.com/restaurants/get-details"
+
+    querystring = {"location_id":"2233968","lang":"en_US","currency":"USD"}
+
+    headers = {
+    'x-rapidapi-host': "tripadvisor1.p.rapidapi.com",
+    'x-rapidapi-key': "7332192ef0msh929fcd79c88fe52p16fd69jsn78bb6a2984d1"
+    }
+
+    response = requests.request("GET", url, headers=headers, params=querystring)
+
+    print(response.text)
+
+    return render(request, 'blog/blog.html', {'name':content, 
                                                    'username':user1,
                                                    'username2':response2,
-                                                   'username3':response3})
+                                                   'username3':response3,
+                                                   'response4':response4,
+                                                   'test1':test2,
+                                                   'cit1':cit1,
+                                                   'cit2':cit2,
+                                                   'cit3':cit3,
+                                                   'cit4':cit4,
+                                                   'cit5':cit5})
 
 
 
 
-def results(request):
-    loc= Location.objects.values('location')
-    foo= Food.objects.all()
-    trans= Transport.objects.values('transport')
+#def results(request):
+ #   loc= Location.objects.values('location')
+  #  foo= Food.objects.all()
+   # trans= Transport.objects.values('transport')
     
-    content = {
-    'location':loc,
-    'food':foo,
-    'transport':trans,
-    }
-    return render(request, 'blog/results.html', content)
-
-
-
-
+    #content = {
+    #'location':loc,
+    #'food':foo,
+    #'transport':trans,
+    #}
+    #return render(request, 'blog/results.html', content)
 
