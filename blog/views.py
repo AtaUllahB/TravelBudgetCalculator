@@ -83,20 +83,6 @@ def show(request):
     for x in geodata:
         content.append((x["name"]+" "+x["country_code"]))
         
-
-    url = "https://tripadvisor1.p.rapidapi.com/restaurants/get-details"
-
-    querystring = {"location_id":"2233968","lang":"en_US","currency":"USD"}
-
-    headers = {
-    'x-rapidapi-host': "tripadvisor1.p.rapidapi.com",
-    'x-rapidapi-key': "7332192ef0msh929fcd79c88fe52p16fd69jsn78bb6a2984d1"
-    }
-
-    response = requests.request("GET", url, headers=headers, params=querystring)
-
-    print(response.text)
-
     return render(request, 'blog/blog.html', {'name':content, 
                                                    'username':user1,
                                                    'username2':response2,
