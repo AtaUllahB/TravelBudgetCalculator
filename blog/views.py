@@ -30,7 +30,7 @@ def show(request):
         countrycode = request.GET['query']
         countrycode = (countrycode[-2]+countrycode[-1])
         # Accessing the api for particular country code
-        headers = {'X-API-KEY':'PATRICKONEILL04032020','Content-Type':'application/json'}
+        headers = {'X-API-KEY':'************************','Content-Type':'application/json'} #Enter API KEY
         url = 'https://www.budgetyourtrip.com/api/v3/costs/countryinfo/%s' % countrycode
         response = requests.get(url, headers=headers) # Saving the respose object from the api
         countryTravelCost = ((((response.json())['data']["costs"]))) # Country Travel Cost
@@ -40,7 +40,7 @@ def show(request):
         #     user1.append(x)
 
         # Accessing the api from country activity cost aganist particular country code
-        headers = {'X-API-KEY':'PATRICKONEILL04032020','Content-Type':'application/json'}
+        headers = {'X-API-KEY':'****************************','Content-Type':'application/json'} #Enter API KEY
         url = 'https://www.budgetyourtrip.com/api/v3/costs/countryhighlights/%s' % countrycode
         response = requests.get(url, headers=headers) # Saving the respose object from the api
         countryActivity = ((response.json())['data']) # Country Activity Cost
@@ -51,7 +51,7 @@ def show(request):
     if 'sel1' in request.GET:
         # getting geonameid for city from url on pressing the search button
         geonameid = request.GET['sel1']
-        headers = {'X-API-KEY':'PATRICKONEILL04032020','Content-Type':'application/json'}
+        headers = {'X-API-KEY':'***********************************','Content-Type':'application/json'} #Enter API KEY
         url = 'https://www.budgetyourtrip.com/api/v3/costs/locationinfo/%s' %geonameid
         response = requests.get(url, headers=headers) # Saving the respose object from the api
         cityTravelCost = ((((response.json())['data']["costs"]))) # city Travel Cost
@@ -59,12 +59,12 @@ def show(request):
         cityCurrencyCode = ((response.json())['data']["info"]["currency_code"]) # City Currency Code
         
         
-        headers = {'X-API-KEY':'PATRICKONEILL04032020','Content-Type':'application/json'}
+        headers = {'X-API-KEY':'************************************','Content-Type':'application/json'} #Enter API KEY
         url = 'https://www.budgetyourtrip.com/api/v3/activities/citysearch/%s' %cityName
         response = requests.get(url, headers=headers)
         cityActivityCost = ((response.json())['data']) # City Activity Costs
         
-        headers = {'X-API-KEY':'PATRICKONEILL04032020','Content-Type':'application/json'}
+        headers = {'X-API-KEY':'**************************************','Content-Type':'application/json'} #Enter API KEY
         url = 'https://www.budgetyourtrip.com/api/v3/costs/highlights/%s' %geonameid
         response = requests.get(url, headers=headers)
         cityFood = ((response.json())['data']) # City Food
@@ -72,7 +72,7 @@ def show(request):
         
             
     # Accesing the api currency code for currency conversion
-    headers = {'X-API-KEY':'PATRICKONEILL04032020','Content-Type':'application/json'}
+    headers = {'X-API-KEY':'**************************','Content-Type':'application/json'} #Enter API KEY
     response = requests.get('https://www.budgetyourtrip.com/api/v3/currencies', headers=headers)
     # test1 = response
     currencyCode = ((response.json())['data'])
@@ -82,7 +82,7 @@ def show(request):
         cCode.append((x["currency_code"]))
 
     # Accessing the api for Country list populated in country search bar
-    headers = {'X-API-KEY':'PATRICKONEILL04032020','Content-Type':'application/json'}
+    headers = {'X-API-KEY':'*******************************','Content-Type':'application/json'} #Enter API KEY
     response = requests.get('https://www.budgetyourtrip.com/api/v3/countries', headers=headers)
     # getting country list from the api
     countryList = response.json()
