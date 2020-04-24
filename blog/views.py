@@ -11,90 +11,100 @@ import json
 
 def show(request):
   
-    user1 = []
-    response2 = {}
-    response3={}
-    response4={}
-    test2 =[]
-    cit = []
-    cit1 = []
-    cit2 = []
-    cit3 = []
-    cit4 = []
-    cit5 = []
+    countryTravelCost = []
+    countryCurrencyCode = {}
+    countryName={}
+    countryActivity={}
+    cCode =[]
+    cList = []
+    geonameid = []
+    cityTravelCost = []
+    cityName = []
+    cityCurrencyCode = []
+    cityActivityCost = []
+    cityFood = []
+
+    # getting information about country
     if 'query' in request.GET:
-        username = request.GET['query']
-        username = (username[-2]+username[-1])
+        # getting country code from url on pressing the search button
+        countrycode = request.GET['query']
+        countrycode = (countrycode[-2]+countrycode[-1])
+        # Accessing the api for particular country code
         headers = {'X-API-KEY':'PATRICKONEILL04032020','Content-Type':'application/json'}
-        url = 'https://www.budgetyourtrip.com/api/v3/costs/countryinfo/%s' % username
-        response = requests.get(url, headers=headers)
-        response1 = ((((response.json())['data']["costs"])))
-        response2 = ((response.json())['data']["info"]["currency_code"])
-        response3 = ((response.json())['data']["info"]["name"])
-        for x in response1:
-            user1.append(x)
-        
+        url = 'https://www.budgetyourtrip.com/api/v3/costs/countryinfo/%s' % countrycode
+        response = requests.get(url, headers=headers) # Saving the respose object from the api
+        countryTravelCost = ((((response.json())['data']["costs"]))) # Country Travel Cost
+        countryCurrencyCode = ((response.json())['data']["info"]["currency_code"]) # Country Currency Code
+        countryName = ((response.json())['data']["info"]["name"]) # Country Name
+        # for x in countryTravelCost:
+        #     user1.append(x)
+
+        # Accessing the api from country activity cost aganist particular country code
         headers = {'X-API-KEY':'PATRICKONEILL04032020','Content-Type':'application/json'}
-        url = 'https://www.budgetyourtrip.com/api/v3/costs/countryhighlights/%s' % username
-        response = requests.get(url, headers=headers)
-        response4 = ((response.json())['data'])
+        url = 'https://www.budgetyourtrip.com/api/v3/costs/countryhighlights/%s' % countrycode
+        response = requests.get(url, headers=headers) # Saving the respose object from the api
+        countryActivity = ((response.json())['data']) # Country Activity Cost
         
        
        
-  
-    if 'sel1' in request.GET: 
-        cit = request.GET['sel1']
+    # getting information about city
+    if 'sel1' in request.GET:
+        # getting geonameid for city from url on pressing the search button
+        geonameid = request.GET['sel1']
         headers = {'X-API-KEY':'PATRICKONEILL04032020','Content-Type':'application/json'}
-        url = 'https://www.budgetyourtrip.com/api/v3/costs/locationinfo/%s' %cit
-        response = requests.get(url, headers=headers)
-        cit1 = ((((response.json())['data']["costs"])))
-        cit2 = ((response.json())['data']["info"]["asciiname"])
-        cit3 = ((response.json())['data']["info"]["currency_code"])
+        url = 'https://www.budgetyourtrip.com/api/v3/costs/locationinfo/%s' %geonameid
+        response = requests.get(url, headers=headers) # Saving the respose object from the api
+        cityTravelCost = ((((response.json())['data']["costs"]))) # city Travel Cost
+        cityName = ((response.json())['data']["info"]["asciiname"]) # City Name
+        cityCurrencyCode = ((response.json())['data']["info"]["currency_code"]) # City Currency Code
         
         
         headers = {'X-API-KEY':'PATRICKONEILL04032020','Content-Type':'application/json'}
-        url = 'https://www.budgetyourtrip.com/api/v3/activities/citysearch/%s' %cit2
+        url = 'https://www.budgetyourtrip.com/api/v3/activities/citysearch/%s' %cityName
         response = requests.get(url, headers=headers)
-        cit4 = ((response.json())['data'])
+        cityActivityCost = ((response.json())['data']) # City Activity Costs
         
         headers = {'X-API-KEY':'PATRICKONEILL04032020','Content-Type':'application/json'}
-        url = 'https://www.budgetyourtrip.com/api/v3/costs/highlights/%s' %cit
+        url = 'https://www.budgetyourtrip.com/api/v3/costs/highlights/%s' %geonameid
         response = requests.get(url, headers=headers)
-        cit5 = ((response.json())['data'])
+        cityFood = ((response.json())['data']) # City Food
         
         
             
-        
+    # Accesing the api currency code for currency conversion
     headers = {'X-API-KEY':'PATRICKONEILL04032020','Content-Type':'application/json'}
     response = requests.get('https://www.budgetyourtrip.com/api/v3/currencies', headers=headers)
-    test1 = response
-    test1 = ((response.json())['data'])
+    # test1 = response
+    currencyCode = ((response.json())['data'])
     #test1 = test1['currency_code']
     #test1 == ((((response.json())['data']["currency_code"])))
-    for x in test1:
-        test2.append((x["currency_code"]))
-    
+    for x in currencyCode:
+        cCode.append((x["currency_code"]))
+
+    # Accessing the api for Country list populated in country search bar
     headers = {'X-API-KEY':'PATRICKONEILL04032020','Content-Type':'application/json'}
     response = requests.get('https://www.budgetyourtrip.com/api/v3/countries', headers=headers)
-    geodata = response.json()
-    geodata = geodata['data']
-    #geodata = geodata[0]['name']
-    content = []
-    for x in geodata:
-        content.append((x["name"]+" "+x["country_code"]))
+    # getting country list from the api
+    countryList = response.json()
+    countryList = countryList['data']
+    #countryList = countryList[0]['name']
+    for x in countryList:
+        cList.append((x["name"]+" "+x["country_code"]))
         
-    return render(request, 'blog/blog.html', {'name':content, 
-                                                   'username':user1,
-                                                   'username2':response2,
-                                                   'username3':response3,
-                                                   'response4':response4,
-                                                   'test1':test2,
-                                                   'cit1':cit1,
-                                                   'cit2':cit2,
-                                                   'cit3':cit3,
-                                                   'cit4':cit4,
-                                                   'cit5':cit5})
 
+
+    # passing data in variables to front end
+    return render(request, 'blog/blog.html', {'cList':cList,
+                                                   'countryTravelCost':countryTravelCost,
+                                                   'countryCurrencyCode':countryCurrencyCode,
+                                                   'countryName':countryName,
+                                                   'countryActivity':countryActivity,
+                                                   'cCode':cCode,
+                                                   'cityTravelCost':cityTravelCost,
+                                                   'cityName':cityName,
+                                                   'cityCurrencyCode':cityCurrencyCode,
+                                                   'cityActivityCost':cityActivityCost,
+                                                   'cityFood':cityFood})
 
 
 
