@@ -1,5 +1,5 @@
 # TravelBudgetCalculator
-A travel budget calculator using python Django framework with HTML/CSS/JavaScript and JQuery.
+A travel budget calculator using python Django framework with HTML/CSS/Bootstrap/JavaScript/JQuery/Ajax.
 
 
 <img src="https://github.com/AtaUllahB/TravelBudgetCalculator/blob/master/Screenshots/Loading.png?raw=true">
